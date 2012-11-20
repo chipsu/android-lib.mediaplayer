@@ -76,7 +76,7 @@ struct Condition {
 
 protected:
     Condition(const Condition &);
-	Condition &operator = (const Condition &);
+    Condition &operator = (const Condition &);
 
     pthread_cond_t m_cond;
     pthread_condattr_t m_attr;

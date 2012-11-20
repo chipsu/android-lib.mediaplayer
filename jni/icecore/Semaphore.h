@@ -7,28 +7,28 @@
 namespace icecore {
 
 struct Semaphore {
-	
-	explicit Semaphore(int value = 1) {
-		sem_init(&m_handle, 0, value);
-	}
-	
-	~Semaphore() {
-		sem_destroy(&m_handle);
-	}
-	
-	void lock() {
-		int result = sem_wait(&m_handle);
-		if(result != 0) {
-			LOGE("sem_wait failed: %d", result);
-		}
-	}
-	
-	bool tryLock() {
-		if(sem_trywait(&m_handle) == 0) {
-			return true;
-		}
-		return false;
-	}
+    
+    explicit Semaphore(int value = 1) {
+        sem_init(&m_handle, 0, value);
+    }
+    
+    ~Semaphore() {
+        sem_destroy(&m_handle);
+    }
+    
+    void lock() {
+        int result = sem_wait(&m_handle);
+        if(result != 0) {
+            LOGE("sem_wait failed: %d", result);
+        }
+    }
+    
+    bool tryLock() {
+        if(sem_trywait(&m_handle) == 0) {
+            return true;
+        }
+        return false;
+    }
 
     bool tryLock(long ns) {
         struct timespec timeout;
@@ -41,18 +41,18 @@ struct Semaphore {
     bool tryLockMs(long ms) {
         return tryLock(ms * 1000000);
     }
-	
-	void unlock() {
-		int result = sem_post(&m_handle);
-		if(result != 0) {
-			LOGE("sem_post failed: %d", result);
-		}
-	}
+    
+    void unlock() {
+        int result = sem_post(&m_handle);
+        if(result != 0) {
+            LOGE("sem_post failed: %d", result);
+        }
+    }
 
-protected:	
+protected:  
     Semaphore(const Semaphore &);
-	Semaphore &operator = (const Semaphore &);
-	sem_t m_handle;
+    Semaphore &operator = (const Semaphore &);
+    sem_t m_handle;
 };
 
 }
